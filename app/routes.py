@@ -44,6 +44,8 @@ def logout():
 
 @bp.route('/')
 def index():
+    if not current_user.is_authenticated:
+        return redirect(url_for('routes.login'))
     return render_template('index.html')
 
 @bp.route('/debate/<topic_id>')
