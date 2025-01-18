@@ -4,3 +4,5 @@
 __init__.cpython-310.pyc
 routes.cpython-310.pyc
 /instance
+test.py
+insight.db
