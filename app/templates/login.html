@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Login</title>
+    <title>Insight Login</title>
 </head>
 <body>
-    <h1>Login</h1>
+    <h1>Insight Login</h1>
     <form method="POST">
         {{ form.hidden_tag() }}
         <div>
@@ -15,14 +15,16 @@
             {{ form.username(id="username") }}
         </div>
         <div>
+            <br>
             <label for="password">{{ form.password.label }}</label>
             {{ form.password(id="password") }}
         </div>
         <div>
+            <br>
             {{ form.submit }}
         </div>
     </form>    
-    <p>Don't have an account? <a href="{{ url_for('routes.register') }}">Register here</a>.</p>
+    <br><br><p>Don't have an account? <a href="{{ url_for('routes.register') }}">Register here</a>.</p>
 </body>
 </html>
 
