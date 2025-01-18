@@ -55,8 +55,8 @@ ul li:hover {
 
 /* Button styles */
 button {
-    background-color: #F5F7FA;
-    color: #5C81B6;
+    background-color: #5C81B6;
+    color: #FFFFFF;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
@@ -66,12 +66,12 @@ button {
 }
 
 button:hover {
-    background-color: #2C3E50;
+    background-color: #466893;
 }
 
 /* Card for individual debate topics */
 .topic-card {
-    background-color: #fff;
+    background-color: #FFFFFF;
     border-radius: 8px;
     padding: 20px;
     margin: 20px 0;
