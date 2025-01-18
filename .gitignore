@@ -1,4 +1,4 @@
-__pycache__
+/app/__pycache__
 *.pyc
 *.cpython-310.pyc
 __init__.cpython-310.pyc
