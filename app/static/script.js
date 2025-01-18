@@ -1,7 +1,9 @@
 // Sample data for topics and perspectives
 const topics = [
-    { id: 1, title: "Should AI replace teachers?", perspectives: ["Pro", "Con", "Neutral"] },
-    { id: 2, title: "Is climate change the most urgent issue?", perspectives: ["Pro", "Con", "Neutral"] }
+    { id: 1, title: "Should AI be used in schools?", perspectives: ["Pro", "Con", "Neutral"] },
+    { id: 2, title: "Is climate change the most urgent issue?", perspectives: ["Pro", "Con", "Neutral"] },
+    { id: 3, title: "Should the voting age be lowered?", perspectives: ["Pro", "Con", "Neutral"] }
+
 ];
 
 // Function to randomly assign a perspective (Pro, Con, Neutral)

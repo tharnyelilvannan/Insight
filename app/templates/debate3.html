@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debate Topic 3</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="topic-card">
+            <h2>Debating Topic: Should the voting age be lowered?</h2>
+            <p id="perspective-display">Click the button to get your perspective.</p>
+            <button class="debate-btn" data-topic-id="1">Get My Perspective</button>
+        </div>
+
+        <div class="topic-card">
+            <h2>Your Argument</h2>
+            <textarea id="argument-input" rows="4" cols="50" placeholder="Write your argument here..."></textarea><br><br>
+            <button id="submit-argument">Submit Argument</button>
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

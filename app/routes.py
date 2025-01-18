@@ -59,12 +59,16 @@ def index():
 
 @bp.route('/debate/<topic_id>')
 def debate(topic_id):
-    # Fetch the topic by topic_id and assign perspectives
-    # For now, a placeholder response
-    return f"Debating Topic: {topic_id}"
+    if topic_id == '1':
+        return render_template('debate1.html', topic_id=topic_id)
+    elif topic_id == '2':
+        return render_template('debate2.html', topic_id=topic_id)
+    elif topic_id == '3':
+        return render_template('debate3.html', topic_id=topic_id)
+    else:
+        return render_template('error.html', message="Topic not found"), 404
 
 @bp.route('/test', methods=['GET'])
 def test():
     print("Test route accessed")
     return "Test successful"
-
