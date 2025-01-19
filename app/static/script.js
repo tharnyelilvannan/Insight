@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// vent listener for submitting an argument
+// event listener for submitting an argument
 document.getElementById("submit-argument").addEventListener("click", () => {
     const argumentContent = document.getElementById("argument-input").value;
     if (argumentContent) {

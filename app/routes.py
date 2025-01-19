@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from app.models import User
 from app.forms import LoginForm, RegistrationForm
@@ -51,7 +51,7 @@ def logout():
     logout_user()
     flash('You have been logged out.', 'info')
     print("Logged out.")
-    return redirect(url_for('routes.index'))
+    return redirect(url_for('routes.login'))
 
 @bp.route('/')
 @login_required
@@ -74,14 +74,16 @@ def test():
     print("Test route accessed")
     return "Test successful"
 
+"""
 # route to show a list of debate topics
 @login_required
 @bp.route('/forum')
 def forum():
     topics = DebateTopic.query.all()
-    return render_template('debate.html', topics=topics)
+    return render_template('debate.html')
+"""
 
-@bp.route('/debate/<int:topic_id>/comment', methods=['GET', 'POST'])
+@bp.route('/debate/<topic_id>/comment', methods=['GET', 'POST'])
 @login_required
 def comment(topic_id):
     # get topic
@@ -107,3 +109,21 @@ def comment(topic_id):
     comments = DebateComment.query.filter_by(topic_id=topic_id).order_by(DebateComment.created_at.desc()).all()
 
     return render_template('debate.html', topic=topic, comments=comments, form=form)
+
+@bp.route('/debate/<topic_id>/forum', methods=['GET', 'POST'])
+def submit_argument(topic_id):
+    content = request.form.get('content')  # get form data
+    if content:
+        topic = DebateTopic.query.get(topic_id)
+        if topic:
+            comment = DebateComment(content=content, user_id=current_user.id, topic_id=topic.id)
+            db.session.add(comment)
+            db.session.commit()
+            flash('Argument submitted successfully!')
+            return redirect(url_for('routes.debate', topic_id=topic_id))  # Redirect back to the forum page
+        else:
+            flash('Debate topic not found.')
+            return redirect(url_for('routes.index'))
+    else:
+        flash('Argument content is required.')
+        return redirect(url_for('routes.debate', topic_id=topic_id))  # Redirect back to the forum
