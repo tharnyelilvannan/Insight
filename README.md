@@ -9,3 +9,6 @@ This is a web application built using Flask, HTML, CSS, and Javascript.
 - **User Authentication**: Users can register and log in
 - **Debate Topics**: Users can view different debate topics.
 - **Argument Submission**: Users can write their own arguments, challanging their own viewpoints.
+
+## Future
+- **Debate Forum**: Add a moderated forum where users can debate and comment on each others opinions in a respectful manner.
