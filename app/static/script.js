@@ -1,4 +1,4 @@
-// Sample data for topics and perspectives
+// data for topics
 const topics = [
     { id: 1, title: "Should AI be used in schools?", perspectives: ["Pro", "Con", "Neutral"] },
     { id: 2, title: "Is climate change the most urgent issue?", perspectives: ["Pro", "Con", "Neutral"] },
@@ -6,7 +6,7 @@ const topics = [
 
 ];
 
-// Function to randomly assign a perspective (Pro, Con, Neutral)
+// function to randomly assign a perspective (Pro, Con, Neutral)
 function assignPerspective(topicId) {
     const topic = topics.find(t => t.id === topicId);
     const randomIndex = Math.floor(Math.random() * topic.perspectives.length);
@@ -15,7 +15,7 @@ function assignPerspective(topicId) {
     return assignedPerspective;
 }
 
-// Event listener for the debate button (on the topic page)
+// event listener for the debate button (on the topic page)
 document.addEventListener("DOMContentLoaded", () => {
     const debateButtons = document.querySelectorAll('.debate-btn');
     
@@ -31,11 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Event listener for submitting an argument
+// vent listener for submitting an argument
 document.getElementById("submit-argument").addEventListener("click", () => {
     const argumentContent = document.getElementById("argument-input").value;
     if (argumentContent) {
-        // Here you could send the argument to the backend (e.g., via AJAX)
         alert("Your argument has been submitted!");
     } else {
         alert("Please enter an argument.");

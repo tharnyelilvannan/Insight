@@ -25,14 +25,14 @@ def register():
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
-    #if current_user.is_authenticated:  # Redirect if already logged in
-        #print("His")
-        #return redirect(url_for('routes.index'))
+    if current_user.is_authenticated:  # redirect if already logged in
+        print("His")
+        return redirect(url_for('routes.index'))
 
     print("Login page reached")
     form = LoginForm()
 
-    if form.validate_on_submit():  # If form is valid
+    if form.validate_on_submit():  # if form is valid
         print(f"Attempting to log in user: {form.username.data}")
 
         user = User.query.filter_by(username=form.username.data).first()  # Find user by username
@@ -74,22 +74,23 @@ def test():
     print("Test route accessed")
     return "Test successful"
 
-# Route to show a list of debate topics
-@bp.route('/debates')
-def debates():
-    topics = DebateTopic.query.all()
-    return render_template('debates.html', topics=topics)
-
-@bp.route('/debate/<int:topic_id>/debate', methods=['GET', 'POST'])
+# route to show a list of debate topics
 @login_required
-def debate_forum(topic_id):
-    # Fetch the topic by ID
+@bp.route('/forum')
+def forum():
+    topics = DebateTopic.query.all()
+    return render_template('debate.html', topics=topics)
+
+@bp.route('/debate/<int:topic_id>/comment', methods=['GET', 'POST'])
+@login_required
+def comment(topic_id):
+    # get topic
     topic = DebateTopic.query.get_or_404(topic_id)
 
-    # Initialize the comment form
+    # initialize form
     form = CommentForm()
 
-    # Handle form submission
+    # form submission
     if form.validate_on_submit():
         # Create and save the comment
         comment = DebateComment(
@@ -100,31 +101,9 @@ def debate_forum(topic_id):
         db.session.add(comment)
         db.session.commit()
         flash("Comment posted successfully!", "success")
-        return redirect(url_for('routes.debate_forum', topic_id=topic_id))
+        return redirect(url_for('routes.debate', topic_id=topic_id))
 
-    # Fetch all comments for the topic
+    # get comments
     comments = DebateComment.query.filter_by(topic_id=topic_id).order_by(DebateComment.created_at.desc()).all()
 
-    # Render the debate forum template
-    return render_template('debate_forum.html', topic=topic, comments=comments, form=form)
-
-@bp.route('/debate/<int:topic_id>/forum', methods=['GET', 'POST'])
-def forum(topic_id):
-    topic = DebateTopic.query.get_or_404(topic_id)
-    form = CommentForm()
-
-    if form.validate_on_submit():
-        print("Form submitted")
-        print(f"Form data: {form.content.data}")
-        comment = DebateComment(content=form.content.data, topic_id=topic.id, user_id=current_user.id)
-        db.session.add(comment)
-        db.session.commit()
-        flash('Your comment has been posted!', 'success')
-        print(f"Redirecting to forum with topic_id: {topic.id}")
-        return redirect(url_for('routes.forum', topic_id=topic.id))
-    else:
-        print("Form not submitted or validation failed")
-
-    comments = DebateComment.query.filter_by(topic_id=topic.id).all()
     return render_template('debate.html', topic=topic, comments=comments, form=form)
-

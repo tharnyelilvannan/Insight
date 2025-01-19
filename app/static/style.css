@@ -1,4 +1,4 @@
-/* Global styles */
+/* global styles */
 * {
     margin: 0;
     padding: 0;
@@ -13,21 +13,21 @@ body {
     padding: 50px;
 }
 
-/* Container for content */
+/* container for content */
 .container {
     width: 90%;
     max-width: 900px;
     margin: 0 auto;
 }
 
-/* Header */
+/* header */
 h1 {
     font-size: 2.5em;
     color: #2C3E50;
     margin-bottom: 20px;
 }
 
-/* Topic List */
+/* topic List */
 ul {
     list-style-type: none;
     padding: 0;
@@ -53,7 +53,7 @@ ul li:hover {
     transform: scale(1.02);
 }
 
-/* Button styles */
+/* button styles */
 button {
     background-color: #5C81B6;
     color: #FFFFFF;
@@ -69,7 +69,7 @@ button:hover {
     background-color: #466893;
 }
 
-/* Card for individual debate topics */
+/* card for individual debate topics */
 .topic-card {
     background-color: #FFFFFF;
     border-radius: 8px;
@@ -91,7 +91,7 @@ button:hover {
     margin-top: 20px;
 }
 
-/* Footer */
+/* footer */
 footer {
     margin-top: 50px;
     font-size: 0.8em;
