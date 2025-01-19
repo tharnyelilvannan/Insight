@@ -1,0 +1,9 @@
+<h1>Debate Topics</h1>
+<ul>
+    {% for topic in topics %}
+    <li>
+        <a href="{{ url_for('routes.debate', topic_id=topic.id) }}">{{ topic.title }}</a>
+        <p>{{ topic.description }}</p>
+    </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debate Forum</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h1>{{ topic.title }}</h1>
+<p>{{ topic.description }}</p>
+
+<h2>Comments</h2>
+<ul>
+    {% for comment in comments %}
+    <li>
+        <strong>{{ comment.user.username }}</strong>:
+        <p>{{ comment.content }}</p>
+        <small>{{ comment.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+    </li>
+    {% else %}
+    <li>No comments yet. Be the first to comment!</li>
+    {% endfor %}
+</ul>
+
+<h3>Post a Comment</h3>
+<form method="POST" action="{{ url_for('routes.debate', topic_id=topic.id) }}">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.content.label }}<br>
+        {{ form.content(class_="form-control", rows=5) }}
+    </div>
+    <div>
+        {{ form.submit(class_="btn btn-primary") }}
+    </div>
+</form>
+</body>
+</html>

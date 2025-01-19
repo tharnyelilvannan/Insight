@@ -1,6 +1,7 @@
 from app import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -24,3 +25,21 @@ class Argument(db.Model):
     content = db.Column(db.Text, nullable=False)
     perspective = db.Column(db.String(20), nullable=False)
     topic_id = db.Column(db.Integer, db.ForeignKey('topic.id'), nullable=False)
+
+
+class DebateTopic(db.Model):
+    __tablename__ = 'debate_topic'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    comments = db.relationship('DebateComment', back_populates='topic', lazy=True)
+
+class DebateComment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    topic_id = db.Column(db.Integer, db.ForeignKey('debate_topic.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    user = db.relationship('User', backref='comments', lazy=True)
+    topic = db.relationship('DebateTopic', back_populates='comments', lazy=True)

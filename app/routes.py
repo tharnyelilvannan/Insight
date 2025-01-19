@@ -3,6 +3,8 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.models import User
 from app.forms import LoginForm, RegistrationForm
 from app import db
+from app.models import DebateTopic, DebateComment
+from app.forms import CommentForm
 
 bp = Blueprint('routes', __name__)
 
@@ -43,7 +45,6 @@ def login():
 
     return render_template('login.html', form=form)
 
-
 @bp.route('/logout')
 @login_required
 def logout():
@@ -72,3 +73,58 @@ def debate(topic_id):
 def test():
     print("Test route accessed")
     return "Test successful"
+
+# Route to show a list of debate topics
+@bp.route('/debates')
+def debates():
+    topics = DebateTopic.query.all()
+    return render_template('debates.html', topics=topics)
+
+@bp.route('/debate/<int:topic_id>/debate', methods=['GET', 'POST'])
+@login_required
+def debate_forum(topic_id):
+    # Fetch the topic by ID
+    topic = DebateTopic.query.get_or_404(topic_id)
+
+    # Initialize the comment form
+    form = CommentForm()
+
+    # Handle form submission
+    if form.validate_on_submit():
+        # Create and save the comment
+        comment = DebateComment(
+            content=form.content.data,
+            user_id=current_user.id,
+            topic_id=topic_id
+        )
+        db.session.add(comment)
+        db.session.commit()
+        flash("Comment posted successfully!", "success")
+        return redirect(url_for('routes.debate_forum', topic_id=topic_id))
+
+    # Fetch all comments for the topic
+    comments = DebateComment.query.filter_by(topic_id=topic_id).order_by(DebateComment.created_at.desc()).all()
+
+    # Render the debate forum template
+    return render_template('debate_forum.html', topic=topic, comments=comments, form=form)
+
+@bp.route('/debate/<int:topic_id>/forum', methods=['GET', 'POST'])
+def forum(topic_id):
+    topic = DebateTopic.query.get_or_404(topic_id)
+    form = CommentForm()
+
+    if form.validate_on_submit():
+        print("Form submitted")
+        print(f"Form data: {form.content.data}")
+        comment = DebateComment(content=form.content.data, topic_id=topic.id, user_id=current_user.id)
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment has been posted!', 'success')
+        print(f"Redirecting to forum with topic_id: {topic.id}")
+        return redirect(url_for('routes.forum', topic_id=topic.id))
+    else:
+        print("Form not submitted or validation failed")
+
+    comments = DebateComment.query.filter_by(topic_id=topic.id).all()
+    return render_template('debate.html', topic=topic, comments=comments, form=form)
+
